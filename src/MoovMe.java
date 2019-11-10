@@ -15,9 +15,9 @@ public class MoovMe {
     static UserDatabase userDatabase;
     static TerminalDatabase terminalDatabase;
     static ZoneDatabase zoneDatabase;
-    static TerminalManager terminalManager;
-    static UserManager userManager;
-    static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
+    //static TerminalManager terminalManager;
+    //static UserManager userManager;
+    //static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
                                             // a todos los metodos pasarle zone.
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
@@ -26,8 +26,13 @@ public class MoovMe {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        registration();
         logInUser();
 
+    }
+
+    private static void registration() {
+        //no se quien lo va a hacer, despues vemos
     }
 
     private static void logInUser() {

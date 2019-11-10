@@ -1,3 +1,7 @@
+package Highscore;
+
+import Highscore.ScorePoint;
+
 import java.util.Comparator;
 
 public class SortHighscore implements Comparator<ScorePoint> {

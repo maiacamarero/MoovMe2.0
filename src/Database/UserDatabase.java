@@ -1,3 +1,9 @@
+package Database;
+
+import User.Administrator;
+import User.Client;
+import User.User;
+
 import java.util.HashMap;
 
 public class UserDatabase {

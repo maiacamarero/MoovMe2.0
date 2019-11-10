@@ -1,3 +1,5 @@
+package IdGenerator;
+
 public class IdGenerator {
 
     private int lastVehicleId, lastLotId, lastTerminalId;

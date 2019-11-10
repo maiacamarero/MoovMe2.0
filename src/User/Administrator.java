@@ -1,3 +1,7 @@
+package User;
+
+import Trip.Trip;
+
 public class Administrator extends User {
 
     public Administrator(String username, String phoneNumber) {
@@ -5,7 +9,7 @@ public class Administrator extends User {
     }
 
     @Override
-    public void startTrip() {
-
+    public void startTrip(Trip newTrip) {
+        trip = newTrip;
     }
 }

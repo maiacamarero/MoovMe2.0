@@ -1,3 +1,9 @@
+package Zone;
+
+import Discount.Discount;
+import Highscore.Highscore;
+import Vehicle.TypeOfVehicle.TypeOfVehicle;
+
 import java.util.ArrayList;
 
 public class Zone {
@@ -6,6 +12,13 @@ public class Zone {
     private Highscore zoneHighscore;
     private String zoneName;
     private double zoneFarePerMinute;
+
+    public Zone(ArrayList<Discount> zoneDiscounts, String zoneName, double zoneFarePerMinute) {
+        this.zoneDiscounts = zoneDiscounts;
+        zoneHighscore = new Highscore();
+        this.zoneName = zoneName;
+        this.zoneFarePerMinute = zoneFarePerMinute;
+    }
 
     public double getDiscount(TypeOfVehicle typeOfVehicle){
         for (Discount zoneDiscount : zoneDiscounts) {
@@ -19,5 +32,9 @@ public class Zone {
 
     public boolean isTopThree(String phoneNumber) {
         return zoneHighscore.isTopThree(phoneNumber);
+    }
+
+    public double getZoneFarePerMinute() {
+        return zoneFarePerMinute;
     }
 }

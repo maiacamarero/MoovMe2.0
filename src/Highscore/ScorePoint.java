@@ -1,3 +1,5 @@
+package Highscore;
+
 public class ScorePoint {
 
     private String phoneNumber;

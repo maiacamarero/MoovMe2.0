@@ -1,3 +1,5 @@
+package Highscore;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -5,7 +7,6 @@ public class Highscore {
 
     private ArrayList<ScorePoint> scorePoints;
     private ArrayList<ScorePoint> topThree;
-    //puto
 
     public Highscore() {
         topThree = new ArrayList<>();

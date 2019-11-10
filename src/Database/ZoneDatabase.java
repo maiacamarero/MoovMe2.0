@@ -1,3 +1,7 @@
+package Database;
+
+import Zone.Zone;
+
 import java.util.HashMap;
 
 public class ZoneDatabase {

@@ -1,3 +1,8 @@
+package Terminal;
+
+import Vehicle.Vehicle;
+import Zone.Zone;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,4 +42,7 @@ public class Terminal {
         return aVehicle;
     }
 
+    public Zone getTerminalZone() {
+        return terminalZone;
+    }
 }

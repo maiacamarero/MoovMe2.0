@@ -1,3 +1,7 @@
+package Discount;
+
+import Vehicle.TypeOfVehicle.TypeOfVehicle;
+
 public class Discount<T extends TypeOfVehicle> {
 
     private int pointRequirement;

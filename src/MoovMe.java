@@ -1,3 +1,13 @@
+import Database.TerminalDatabase;
+import Database.UserDatabase;
+import Database.ZoneDatabase;
+import Exceptions.UserIsBlockedException;
+import IdGenerator.IdGenerator;
+import Terminal.Terminal;
+import Trip.Trip;
+import User.User;
+import Vehicle.Vehicle;
+
 import java.util.Scanner;
 
 public class MoovMe {
@@ -5,6 +15,10 @@ public class MoovMe {
     static UserDatabase userDatabase;
     static TerminalDatabase terminalDatabase;
     static ZoneDatabase zoneDatabase;
+    static TerminalManager terminalManager;
+    static UserManager userManager;
+    static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
+                                            // a todos los metodos pasarle zone.
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;
@@ -12,6 +26,7 @@ public class MoovMe {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        logInUser();
 
     }
 
@@ -25,9 +40,39 @@ public class MoovMe {
         user = newUser;
     }
 
+    private static void startTrip(){
+        int terminalId;
+        do{
+            System.out.println("Insert terminal ID: ");
+            terminalId = scanner.nextInt();
+        }while (terminalDatabase.findTerminal(terminalId));
+        Terminal terminal = terminalDatabase.getTerminal(terminalId);
+        int vehicleId;
+        do{
+            System.out.println("Insert vehicle ID: ");
+            vehicleId = scanner.nextInt();
+        }while (terminal.checkForVehicleInTerminal(vehicleId));
+        Vehicle vehicle = terminal.getVehicle(vehicleId);
+        Trip trip = new Trip(user, vehicle, terminal.getTerminalZone());
+        try {
+            user.startTrip(trip);
+        } catch (UserIsBlockedException exceptionMessage){
+            System.out.println("You are blocked. Pay fee: " + vehicle.getTypeOfVehicle().getFee());
+            System.out.println("Go to your nearest terminal to get unblocked.");
+        }
+    }
+
     private static double endTrip(){
         double amountToPay = 0;
-        user.endTrip();
+        Vehicle vehicle = user.endTrip();
+        int terminalId;
+        do{
+            System.out.println("Insert terminal ID: ");
+            terminalId = scanner.nextInt();
+        }while (terminalDatabase.findTerminal(terminalId));
+        Terminal terminal = terminalDatabase.getTerminal(terminalId);
+        terminal.addVehicleToTerminal(vehicle.getVehicleId(), vehicle);
+        terminalDatabase.addTerminal(terminal);
         System.out.println("Will you use discount? \n 1. Yes. \n 2. No.");
         int option = scanner.nextInt();
         do{
@@ -41,7 +86,7 @@ public class MoovMe {
                     result = user.canApplyPointDiscount(amountOfPoints);
                     switch (result) {
                         case 1:
-                            System.out.println("Insufficient points. Discount will not be applied.");
+                            System.out.println("Insuficient points. Discount will not be applied.");
                             amountToPay = user.payTrip();
                             break;
                         case 2:
@@ -49,7 +94,7 @@ public class MoovMe {
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 3:
-                            System.out.println("You don't have the amount of points, try again:");
+                            System.out.println("You dont have the amount of points, try again: ");
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 4:

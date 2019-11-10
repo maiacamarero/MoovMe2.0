@@ -1,4 +1,9 @@
+package Trip;
+
 import State.State;
+import User.User;
+import Vehicle.Vehicle;
+import Zone.Zone;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

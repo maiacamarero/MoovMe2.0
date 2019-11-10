@@ -1,20 +1,23 @@
+package User;
+
+import Exceptions.UserIsBlockedException;
 import State.DeliveredOnTime;
+import Trip.Trip;
+import Vehicle.Vehicle;
 
 public abstract class User {
 
     private String username, phoneNumber;
-    private Trip trip;
-    private int usablePoints;
-    private boolean isBlocked;
+    Trip trip;
+    int usablePoints;
 
     public User(String username, String phoneNumber) {
         this.username = username;
         this.phoneNumber = phoneNumber;
-        isBlocked = false;
     }
 
-    public void endTrip(){
-
+    public Vehicle endTrip(){
+        return trip.getVehicle();
     }
 
     public double applyPointDiscount(int amountOfPoints){
@@ -46,7 +49,7 @@ public abstract class User {
         }
     }
 
-    public abstract void startTrip();
+    public abstract void startTrip(Trip trip) throws UserIsBlockedException;
 
     public int canApplyPointDiscount(int amountOfPoints) {
         if (trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle()) > usablePoints) {

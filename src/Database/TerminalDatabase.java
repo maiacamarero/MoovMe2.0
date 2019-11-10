@@ -1,3 +1,7 @@
+package Database;
+
+import Terminal.Terminal;
+
 import java.util.HashMap;
 
 public class TerminalDatabase {
@@ -16,7 +20,9 @@ public class TerminalDatabase {
         terminals.remove(terminalId);
     }
 
-    public Terminal findTerminal(Integer terminalId) {
+    public boolean findTerminal(Integer terminalId){return getTerminal(terminalId) != null;}
+
+    public Terminal getTerminal(Integer terminalId) {
         return terminals.get(terminalId);
     }
 

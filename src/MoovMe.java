@@ -2,9 +2,8 @@ import java.util.Scanner;
 
 public class MoovMe {
 
-    static MemberDatabase memberDatabase;
+    static UserDatabase userDatabase;
     static TerminalDatabase terminalDatabase;
-    static VehicleDatabase vehicleDatabase;
     static ZoneDatabase zoneDatabase;
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
@@ -21,7 +20,7 @@ public class MoovMe {
         do{
             System.out.println("Insert phone number: ");
             String phoneNumber = scanner.nextLine();
-            newUser = memberDatabase.findUser(phoneNumber);
+            newUser = userDatabase.findUser(phoneNumber);
         } while(newUser == null);
         user = newUser;
     }
@@ -42,7 +41,7 @@ public class MoovMe {
                     result = user.canApplyPointDiscount(amountOfPoints);
                     switch (result) {
                         case 1:
-                            System.out.println("Insuficient points. Discount will not be applied.");
+                            System.out.println("Insufficient points. Discount will not be applied.");
                             amountToPay = user.payTrip();
                             break;
                         case 2:
@@ -50,7 +49,7 @@ public class MoovMe {
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 3:
-                            System.out.println("You dont have the amount of points, try again: ");
+                            System.out.println("You don't have the amount of points, try again:");
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 4:

@@ -12,4 +12,8 @@ public class Vehicle {
     public TypeOfVehicle getTypeOfVehicle() {
         return typeOfVehicle;
     }
+
+    int getVehicleId() {
+        return vehicleId;
+    }
 }

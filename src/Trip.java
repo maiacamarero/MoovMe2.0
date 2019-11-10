@@ -22,7 +22,7 @@ public class Trip {
 
     public void setEndTime(){
         endTime = LocalDateTime.now();
-        durationInMins = ((Duration.between(startTime, endTime)).getSeconds())/60;
+        durationInMins = ((Duration.between(startTime, endTime)).getSeconds())/60.0;
     }
 
     public Zone getZone() {

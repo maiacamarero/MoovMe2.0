@@ -17,7 +17,7 @@ public abstract class User {
 
     }
 
-    public double applyPointsDiscount(int amountOfPoints){
+    public double applyPointDiscount(int amountOfPoints){
         return amountOfPoints * trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle());
     }
 
@@ -26,7 +26,7 @@ public abstract class User {
         double amountToPay = trip.getPriceOfTrip();
         amountToPay *= applyTop3Discount();
         amountToPay *= applyDeliveryOnTime();
-        amountToPay -= applyPointsDiscount(amountOfPoints);
+        amountToPay -= applyPointDiscount(amountOfPoints);
         return amountToPay;
     }
 
@@ -48,11 +48,27 @@ public abstract class User {
 
     public abstract void startTrip();
 
+    public int canApplyPointDiscount(int amountOfPoints) {
+        if (trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle()) > usablePoints) {
+            return 1; // insuficient points
+        }else if(amountOfPoints < trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle())){
+            return 2; // minimum not reached
+        }else if(amountOfPoints > usablePoints){
+            return 3; // you dont have that many points
+        }else{
+            return 4; // to piola atr
+        }
+    }
+
     public String getUsername() {
         return username;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public double payTrip() {
+        return payTrip(0);
     }
 }

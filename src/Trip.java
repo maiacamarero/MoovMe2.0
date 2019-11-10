@@ -8,9 +8,8 @@ public class Trip {
     private User user;
     private Vehicle vehicle;
     private LocalDateTime startTime, endTime;
-    private double durationInMins;
+    private double durationInMins, priceOfTrip;
     private Zone zone;
-    private double priceOfTrip;
     private State state;
 
     public Trip(User user, Vehicle vehicle, Zone zone) {
@@ -36,10 +35,6 @@ public class Trip {
 
     public double getPriceOfTrip() {
         return priceOfTrip;
-    }
-
-    public boolean discountIsAvailable(int amountOfPoints) {
-        
     }
 
     public State getState() {

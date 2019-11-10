@@ -62,7 +62,7 @@ public class MoovMe {
         }
     }
 
-    private static double endTrip(){
+    private static double endTrip(){ //manage points xq somos unos forros
         double amountToPay = 0;
         Vehicle vehicle = user.endTrip();
         int terminalId;

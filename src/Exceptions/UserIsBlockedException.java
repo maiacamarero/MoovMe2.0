@@ -1,4 +1,4 @@
 package Exceptions;
 
-public class UserIsBlockedException extends Throwable {
+public class UserIsBlockedException extends Exception {
 }

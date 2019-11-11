@@ -131,11 +131,11 @@ public class MoovMe {
     }
 
     void blockUser(int phoneNumber) {
-        userDatabase.findClient(phoneNumber).blockClient();
+        userManager.blockClient(userDatabase.findClient(phoneNumber));
     }
 
     void unblockUser(int phoneNumber) {
-        userDatabase.findClient(phoneNumber).unblockClient();
+        userManager.unblockClient(userDatabase.findClient(phoneNumber));
     }
 
     void upgradeToAdmin(int phoneNumber) {

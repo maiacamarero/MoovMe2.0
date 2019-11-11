@@ -4,6 +4,7 @@ import State.State;
 import User.User;
 import Vehicle.Vehicle;
 import Zone.Zone;
+import State.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,12 +23,14 @@ public class Trip {
         this.vehicle = vehicle;
         this.zone = zone;
         startTime = LocalDateTime.now();
+        state = new InProgress();
         priceOfTrip = 0;
     }
 
     public void setEndTime(){
         endTime = LocalDateTime.now();
         durationInMins = ((Duration.between(startTime, endTime)).getSeconds())/60.0;
+        priceOfTrip = durationInMins * vehicle.getTotalMinuteFare();
     }
 
     public Zone getZone() {

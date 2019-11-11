@@ -30,7 +30,7 @@ public class MoovMe {
 
     public static void main(String[] args) {
         testStuff();
-
+        System.out.println(terminalDatabase.findTerminal(1));
         int option;
         do {
             System.out.println("1. Register. \n 2. LogIn \n Select Option:");
@@ -51,11 +51,13 @@ public class MoovMe {
         do {
             if (user instanceof Client) {
                 System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
-                        "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
-                        "\n 7. Unblock Client \n Select Option:");
+                        "\n Select Option:");
                 option = scanner.nextInt();
                 userOptions(option);
             } else {
+                System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
+                        "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
+                        "\n 7. Unblock Client \n Select Option:");
                 option = scanner.nextInt();
                 if (option > 3){
                     managerOptions(option);
@@ -67,8 +69,8 @@ public class MoovMe {
     }
 
     private static void testStuff() {
-        Administrator mainAdministrator = new Administrator("MainAdmin", 1126574018);
-        Client testClient = new Client("TestClient", 666);
+        Administrator mainAdministrator = new Administrator("MainAdmin", 123);
+        Client testClient = new Client("TestClient", 676);
         userDatabase.addAdmin(mainAdministrator);
         userDatabase.addClient(testClient);
         zoneDatabase = new ZoneDatabase(moovMeZones());
@@ -78,18 +80,20 @@ public class MoovMe {
         terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Pilar"), idGenerator.getNewTerminalId()));
 
         terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Mar Del Plata"), idGenerator.getNewTerminalId()));
-        Terminal getTerminal = terminalDatabase.getTerminal(0);
+        Terminal getTerminal = terminalDatabase.getTerminal(1);
         Terminal terminal1 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal1);
         terminal1 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal1);
-        Terminal terminal2 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, terminalDatabase.getTerminal(1), idGenerator.getNewLotId());
+        getTerminal = terminalDatabase.getTerminal(2);
+        Terminal terminal2 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal2);
-        terminal2 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, terminalDatabase.getTerminal(1), idGenerator.getNewLotId());
+        terminal2 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal2);
-        Terminal terminal3 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, terminalDatabase.getTerminal(2), idGenerator.getNewLotId());
+        getTerminal = terminalDatabase.getTerminal(3);
+        Terminal terminal3 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal3);
-        terminal3 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, terminalDatabase.getTerminal(2), idGenerator.getNewLotId());
+        terminal3 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, getTerminal, idGenerator.getNewLotId());
         terminalDatabase.addTerminal(terminal3);
 
     }
@@ -184,10 +188,7 @@ public class MoovMe {
 
     static void registration() {
         System.out.print("Insert your username: ");
-        String username;
-        //do{
-            username = scanner.nextLine();
-        //}while (username != "");
+        String username = scanner.nextLine();
         System.out.print("Insert your phone number: ");
         int phoneNumber = scanner.nextInt();
         if(userDatabase.alreadyStoredKey(phoneNumber)) {
@@ -214,13 +215,13 @@ public class MoovMe {
         do{
             System.out.println("Insert terminal ID: ");
             terminalId = scanner.nextInt();
-        }while (terminalDatabase.findTerminal(terminalId));
+        }while (!terminalDatabase.findTerminal(terminalId));
         Terminal terminal = terminalDatabase.getTerminal(terminalId);
         int vehicleId;
         do{
             System.out.println("Insert vehicle ID: ");
             vehicleId = scanner.nextInt();
-        }while (terminal.checkForVehicleInTerminal(vehicleId));
+        }while (!terminal.checkForVehicleInTerminal(vehicleId));
         Vehicle vehicle = terminal.getVehicle(vehicleId);
         Trip trip = new Trip(user, vehicle, terminal.getTerminalZone());
         try {
@@ -234,14 +235,14 @@ public class MoovMe {
     static double endTrip(){
         double amountToPay = 0;
         Vehicle vehicle = user.endTrip();
-        int totalPoints = user.getTrip().getVehicle().getTypeOfVehicle().getScore();
+        int totalPoints = vehicle.getTypeOfVehicle().getScore();
         user.addPoints(totalPoints);
         user.getTrip().getZone().getZoneHighscore().addPoints(user.getPhoneNumber(), totalPoints);
         int terminalId;
         do{
             System.out.println("Insert terminal ID: ");
             terminalId = scanner.nextInt();
-        }while (terminalDatabase.findTerminal(terminalId));
+        }while (!terminalDatabase.findTerminal(terminalId));
         Terminal terminal = terminalDatabase.getTerminal(terminalId);
         terminal.addVehicleToTerminal(vehicle.getVehicleId(), vehicle);
         terminalDatabase.addTerminal(terminal);

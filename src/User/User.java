@@ -30,7 +30,7 @@ public abstract class User {
         double amountToPay = trip.getPriceOfTrip();
         amountToPay *= applyTop3Discount();
         amountToPay *= applyDeliveryOnTime();
-        //chequea descuentos automaticos
+        //
         amountToPay -= applyPointDiscount(amountOfPoints);
         return amountToPay;
     }

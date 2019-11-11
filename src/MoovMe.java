@@ -3,45 +3,36 @@ import Database.UserDatabase;
 import Database.ZoneDatabase;
 import Exceptions.UserIsBlockedException;
 import IdGenerator.IdGenerator;
-import Managers.UserManager;
 import Terminal.Terminal;
 import Trip.Trip;
-import User.*;
+import User.User;
 import Vehicle.Vehicle;
 
 import java.util.Scanner;
 
 public class MoovMe {
 
-    private static UserDatabase userDatabase;
-    private static TerminalDatabase terminalDatabase;
+    static UserDatabase userDatabase;
+    static TerminalDatabase terminalDatabase;
     static ZoneDatabase zoneDatabase;
     //static TerminalManager terminalManager;
-    static UserManager userManager;
+    //static Managers.UserManager userManager;
     //static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
                                             // a todos los metodos pasarle zone.d
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;
-    private static User user;
-    private static Scanner scanner = new Scanner(System.in);
+    static User user;
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         registration();
         logInUser();
+
     }
 
     private static void registration() {
-        System.out.print("Enter your username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter your phone number: ");
-        int phoneNumber = scanner.nextInt();
-        if(userDatabase.alreadyStoredKey(phoneNumber)) {
-            System.out.println("Phone number already used");
-        } else {
-            userDatabase.addClient(new Client(username, phoneNumber));
-            System.out.println("Registration successful!!");
-        }
+        //no se quien lo va a hacer, despues vemos
     }
 
     private static void logInUser() {
@@ -91,9 +82,8 @@ public class MoovMe {
         terminal.addVehicleToTerminal(vehicle.getVehicleId(), vehicle);
         terminalDatabase.addTerminal(terminal);
         System.out.println("Will you use discount? \n 1. Yes. \n 2. No.");
-        int option;
+        int option = scanner.nextInt();
         do{
-            option = scanner.nextInt();
             if(option == 2){
                 amountToPay = user.payTrip();
             }else if(option == 1){
@@ -104,15 +94,15 @@ public class MoovMe {
                     result = user.canApplyPointDiscount(amountOfPoints);
                     switch (result) {
                         case 1:
-                            System.out.println("Insufficient points. Discount will not be applied. ");
+                            System.out.println("Insuficient points. Discount will not be applied.");
                             amountToPay = user.payTrip();
                             break;
                         case 2:
-                            System.out.println("Minimum not reached, please try again: ");
+                            System.out.println("Minimum not reached, please try again:");
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 3:
-                            System.out.println("You don't have the amount of points, try again: ");
+                            System.out.println("You dont have the amount of points, try again: ");
                             amountOfPoints = scanner.nextInt();
                             break;
                         case 4:

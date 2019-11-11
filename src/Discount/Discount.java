@@ -5,14 +5,13 @@ import Vehicle.TypeOfVehicle.TypeOfVehicle;
 public class Discount<T extends TypeOfVehicle> {
 
     private int pointRequirement;
-    private double discountPerPoint, minimumDiscountScore;
+    private double discountPerPoint;
     private T typeOfVehicle;
 
-    public Discount(int pointRequirement, double discountPerPoint, T typeOfVehicle, double minimumDiscountScore) {
+    public Discount(int pointRequirement, double discountPerPoint, T typeOfVehicle) {
         this.pointRequirement = pointRequirement;
         this.discountPerPoint = discountPerPoint;
         this.typeOfVehicle = typeOfVehicle;
-        this.minimumDiscountScore = minimumDiscountScore;
     }
 
     public boolean correctDiscount(TypeOfVehicle typeOfVehicle){
@@ -25,10 +24,6 @@ public class Discount<T extends TypeOfVehicle> {
 
     public double getPointRequirement() {
         return pointRequirement;
-    }
-
-    public void changeMinimumDiscountScore(double newMinDiscountScore) {
-        minimumDiscountScore = newMinDiscountScore;
     }
 
 }

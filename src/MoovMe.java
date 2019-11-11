@@ -72,10 +72,25 @@ public class MoovMe {
         userDatabase.addAdmin(mainAdministrator);
         userDatabase.addClient(testClient);
         zoneDatabase = new ZoneDatabase(moovMeZones());
-        terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("CABA"), idGenerator.getNewTerminalId()));
+        Zone zone = zoneDatabase.findZone("CABA");
+        Terminal terminal = new Terminal(zone, idGenerator.getNewTerminalId());
+        terminalDatabase.addTerminal(terminal);
         terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Pilar"), idGenerator.getNewTerminalId()));
+
         terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Mar Del Plata"), idGenerator.getNewTerminalId()));
-        lotCreator.sendVehicleLotToTerminal(Bycicle, 3, terminalDatabase.getTerminal());
+        Terminal getTerminal = terminalDatabase.getTerminal(0);
+        Terminal terminal1 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, getTerminal, idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal1);
+        terminal1 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, getTerminal, idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal1);
+        Terminal terminal2 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, terminalDatabase.getTerminal(1), idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal2);
+        terminal2 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, terminalDatabase.getTerminal(1), idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal2);
+        Terminal terminal3 = lotCreator.sendVehicleLotToTerminal(new Bycicle(), 3, terminalDatabase.getTerminal(2), idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal3);
+        terminal3 = lotCreator.sendVehicleLotToTerminal(new Scooter(), 3, terminalDatabase.getTerminal(2), idGenerator.getNewLotId());
+        terminalDatabase.addTerminal(terminal3);
 
     }
 

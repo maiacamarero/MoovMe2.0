@@ -23,6 +23,7 @@ public class TerminalDatabase {
     public boolean findTerminal(Integer terminalId){return getTerminal(terminalId) != null;}
 
     public Terminal getTerminal(Integer terminalId) {
+        terminals.get(terminalId);
         return terminals.get(terminalId);
     }
 

@@ -17,7 +17,7 @@ public class ZoneDatabase {
     }
 
     public Zone findZone(String zoneName) {
-        return zones.get(zoneName.toLowerCase());
+        return zones.get(zoneName);
     }
 
 }

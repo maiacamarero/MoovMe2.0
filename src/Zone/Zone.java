@@ -29,6 +29,17 @@ public class Zone {
         throw new RuntimeException("hacer exception TypeOfVehicleNotValid");
     }
 
+    public ArrayList<Discount> getZoneDiscounts() {
+        return zoneDiscounts;
+    }
+
+    public Highscore getZoneHighscore() {
+        return zoneHighscore;
+    }
+
+    public String getZoneName() {
+        return zoneName;
+    }
 
     public boolean isTopThree(String phoneNumber) {
         return zoneHighscore.isTopThree(phoneNumber);

@@ -14,6 +14,7 @@ public abstract class User {
     public User(String username, String phoneNumber) {
         this.username = username;
         this.phoneNumber = phoneNumber;
+        usablePoints = 0;
     }
 
     public Vehicle endTrip(){
@@ -71,7 +72,15 @@ public abstract class User {
         return phoneNumber;
     }
 
+    public Trip getTrip() {
+        return trip;
+    }
+
     public double payTrip() {
         return payTrip(0);
+    }
+
+    public void addPoints(int points){
+        usablePoints += points;
     }
 }

@@ -70,6 +70,9 @@ public class MoovMe {
     private static double endTrip(){ //manage points xq somos unos forros
         double amountToPay = 0;
         Vehicle vehicle = user.endTrip();
+        int totalPoints = user.getTrip().getVehicle().getTypeOfVehicle().getScore();
+        user.addPoints(totalPoints);
+        user.getTrip().getZone().getZoneHighscore().addPoints(user.getPhoneNumber(), totalPoints);
         int terminalId;
         do{
             System.out.println("Insert terminal ID: ");

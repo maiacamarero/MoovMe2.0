@@ -24,8 +24,12 @@ public class Highscore {
         return topThree;
     }
 
-    public void addPoints(String phoneNumber, ScorePoint scorePoint){
-
+    public void addPoints(String phoneNumber, int points){
+        for (ScorePoint scorePoint : scorePoints) {
+            if(phoneNumber.equals(scorePoint.getPhoneNumber())){
+                scorePoint.addPoints(points);
+            }
+        }
     }
 
     public boolean isTopThree(String phoneNumber) {

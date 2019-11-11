@@ -20,12 +20,8 @@ public class Client extends User {
         trip = newTrip;
     }
 
-    public void blockClient() {
-        isClientBlocked = true;
-    }
-
-    public void unblockClient() {
-        isClientBlocked = false;
+    public void setBlockedStatus(boolean blockedStatus) {
+        isClientBlocked = blockedStatus;
     }
 
 }

@@ -12,18 +12,18 @@ public class UserManager {
         userDatabase.addAdmin(newAdmin);
     }
 
-    public void downgradeToUser(UserDatabase userDatabase, Administrator adminToDowngrade) {
+    public void downgradeToClient(UserDatabase userDatabase, Administrator adminToDowngrade) {
         userDatabase.removeAdmin(adminToDowngrade.getPhoneNumber());
         Client newClient = new Client(adminToDowngrade.getUsername(), adminToDowngrade.getPhoneNumber());
         userDatabase.addClient(newClient);
     }
 
     public void blockClient(Client aClient) {
-        aClient.blockClient();
+        aClient.setBlockedStatus(true);
     }
 
     public void unblockClient(Client aClient) {
-        aClient.unblockClient();
+        aClient.setBlockedStatus(false);
     }
 
 }

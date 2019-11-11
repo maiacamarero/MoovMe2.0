@@ -22,8 +22,7 @@ public class MoovMe {
     static ZoneDatabase zoneDatabase = new ZoneDatabase(moovMeZones());
     static TerminalManager terminalManager = new TerminalManager();
     static UserManager userManager;
-    static DiscountManager discountManager; //es el zone manager sin el ultimo metodo y sin ninguna variable.
-                                            // a todos los metodos pasarle zone.d
+    static DiscountManager discountManager;
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;
@@ -45,12 +44,14 @@ public class MoovMe {
             System.out.println("Phone number already used. Enter valid phone number.");
         } else {
             userDatabase.addClient(new Client(username, phoneNumber));
+            System.out.println("Registration successful!!\n");
         }
     }
 
     private static void logInUser() {
         User newUser;
         do{
+            System.out.println("Log In");
             System.out.println("Insert phone number: ");
             int phoneNumber = scanner.nextInt();
             newUser = userDatabase.findUser(phoneNumber);
@@ -127,6 +128,22 @@ public class MoovMe {
             }
         }while(option != 1 && option != 2);
         return amountToPay;
+    }
+
+    void blockUser(int phoneNumber) {
+        userDatabase.findClient(phoneNumber).blockClient();
+    }
+
+    void unblockUser(int phoneNumber) {
+        userDatabase.findClient(phoneNumber).unblockClient();
+    }
+
+    void upgradeToAdmin(int phoneNumber) {
+        userManager.upgradeToAdmin(userDatabase, userDatabase.findClient(phoneNumber));
+    }
+
+    void downgradeToUser(int phoneNumber) {
+        userManager.downgradeToClient(userDatabase, userDatabase.findAdmin(phoneNumber));
     }
 
     private static HashMap<String, Zone> moovMeZones() {

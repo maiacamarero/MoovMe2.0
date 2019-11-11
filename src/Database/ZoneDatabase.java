@@ -8,6 +8,10 @@ public class ZoneDatabase {
 
     private HashMap<String, Zone> zones;
 
+    public HashMap<String, Zone> getZones() {
+        return zones;
+    }
+
     public ZoneDatabase(HashMap<String, Zone> zones) {
         this.zones = zones;
     }

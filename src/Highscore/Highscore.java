@@ -41,4 +41,13 @@ public class Highscore {
         }
         return false;
     }
+
+    public String getPosition(int phoneNumber) {
+        for (int i = 0; i < scorePoints.size(); i++) {
+            if (scorePoints.get(i).getPhoneNumber() == phoneNumber){
+                return "Position: " + i + "Points: " + scorePoints.get(i).getPoints();
+            }
+        }
+        return "... No score in zone";
+    }
 }

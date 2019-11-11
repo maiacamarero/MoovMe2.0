@@ -1,6 +1,7 @@
 import Database.*;
 import Discount.Discount;
 import Exceptions.UserIsBlockedException;
+import Highscore.ScorePoint;
 import IdGenerator.IdGenerator;
 import Managers.*;
 import Terminal.Terminal;
@@ -18,18 +19,18 @@ public class MoovMe {
 
     private static UserDatabase userDatabase = new UserDatabase();
     private static TerminalDatabase terminalDatabase = new TerminalDatabase();
-
-    static ZoneDatabase zoneDatabase = new ZoneDatabase(moovMeZones());
+    static ZoneDatabase zoneDatabase;
     static TerminalManager terminalManager = new TerminalManager();
-    static UserManager userManager;
-    static DiscountManager discountManager;
-    static IdGenerator idGenerator;
-    //static UserInterface userInterface;
-    //static AdministratorInterface administratorInterface;
+    static UserManager userManager = new UserManager();
+    static DiscountManager discountManager = new DiscountManager();
+    static IdGenerator idGenerator = new IdGenerator();
     private static User user;
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        zoneDatabase = new ZoneDatabase(moovMeZones());
+
         int option;
         do {
             System.out.println("1. Register. \n 2. LogIn \n Select Option:");
@@ -48,24 +49,72 @@ public class MoovMe {
         }while(option != 1 && option != 2);
 
         do {
-            System.out.println("1. Start Trip. \n 2. End Trip \n 3. Get Positions" +
-                    "\n Select Option:");
             option = scanner.nextInt();
-            switch (option) {
-                case 1:
-                    registration();
-                    logInUser();
-                    break;
-                case 2:
-                    logInUser();
-                    break;
-                default:
-                    System.out.println("Not a valid option");
+            if (user instanceof Client) {
+                System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
+                        "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
+                        "\n Select Option:");
+                userOptions(option);
+            } else {
+                if (option > 3){
+                    managerOptions(option);
+                }else {
+                    userOptions(option);
+                }
             }
-        }while(option != 1 && option != 2);
+        }while(option != 0);
 
 
 
+    }
+
+    private static void managerOptions(int option) {
+        switch (option) {
+            case 4:
+                blockUser();
+                break;
+            case 5:
+                addTerminal();
+                break;
+            case 6:
+                CreateLot();
+            default:
+                System.out.println("Not a valid option");
+        }
+    }
+
+    private static void CreateLot() {
+
+    }
+
+    private static void addTerminal() {
+
+    }
+
+    private static void blockUser() {
+
+    }
+
+    private static void userOptions(int option) {
+        switch (option) {
+            case 1:
+                startTrip();
+                break;
+            case 2:
+                endTrip();
+                break;
+            case 3:
+                displayPositions();
+            default:
+                System.out.println("Not a valid option");
+        }
+    }
+
+    private static void displayPositions() {
+        for (Zone zone : zoneDatabase.getZones().values()){
+            String position = zone.getZoneHighscore().getPosition(user.getPhoneNumber());
+            System.out.println("Zone: " + zone.getZoneName() + " " + position);
+        }
     }
 
     private static void registration() {

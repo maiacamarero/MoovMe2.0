@@ -18,7 +18,7 @@ public class MoovMe {
     //static TerminalManager terminalManager;
     //static Managers.UserManager userManager;
     //static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
-                                            // a todos los metodos pasarle zone.
+                                            // a todos los metodos pasarle zone.d
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;

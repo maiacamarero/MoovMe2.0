@@ -1,7 +1,6 @@
 import Database.*;
 import Discount.Discount;
 import Exceptions.UserIsBlockedException;
-import Highscore.ScorePoint;
 import IdGenerator.IdGenerator;
 import Lot.LotCreator;
 import Managers.*;
@@ -12,7 +11,6 @@ import Vehicle.*;
 import Vehicle.TypeOfVehicle.*;
 import Zone.Zone;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -31,8 +29,7 @@ public class MoovMe {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
-        zoneDatabase = new ZoneDatabase(moovMeZones());
+        testStuff();
 
         int option;
         do {
@@ -52,13 +49,14 @@ public class MoovMe {
         }while(option != 1 && option != 2);
 
         do {
-            option = scanner.nextInt();
             if (user instanceof Client) {
                 System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
                         "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
                         "\n 7. Unblock Client \n Select Option:");
+                option = scanner.nextInt();
                 userOptions(option);
             } else {
+                option = scanner.nextInt();
                 if (option > 3){
                     managerOptions(option);
                 }else {
@@ -68,7 +66,20 @@ public class MoovMe {
         }while(option != 0);
     }
 
-    private static void managerOptions(int option) {
+    private static void testStuff() {
+        Administrator mainAdministrator = new Administrator("MainAdmin", 1126574018);
+        Client testClient = new Client("TestClient", 666);
+        userDatabase.addAdmin(mainAdministrator);
+        userDatabase.addClient(testClient);
+        zoneDatabase = new ZoneDatabase(moovMeZones());
+        terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("CABA"), idGenerator.getNewTerminalId()));
+        terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Pilar"), idGenerator.getNewTerminalId()));
+        terminalDatabase.addTerminal(new Terminal(zoneDatabase.findZone("Mar Del Plata"), idGenerator.getNewTerminalId()));
+        lotCreator.sendVehicleLotToTerminal(Bycicle, 3, terminalDatabase.getTerminal());
+
+    }
+
+    static void managerOptions(int option) {
         switch (option) {
             case 4:
                 blockUser();
@@ -77,7 +88,7 @@ public class MoovMe {
                 addTerminal();
                 break;
             case 6:
-                CreateLot();
+                createLot();
             case 7:
                 unBlockUser();
             default:
@@ -85,7 +96,7 @@ public class MoovMe {
         }
     }
 
-    private static void unBlockUser() {
+    static void unBlockUser() {
         Client blockingClient;
         do{
             System.out.println("Insert a valid phone number: ");
@@ -94,7 +105,7 @@ public class MoovMe {
         userManager.blockClient(blockingClient);
     }
 
-    private static void CreateLot() {
+    static void createLot() {
         Terminal terminal;
         do{
             System.out.println("Insert a valid Terminal ID: ");
@@ -112,24 +123,29 @@ public class MoovMe {
         } while (option != 1 && option != 2);
         System.out.println("Enter amount of vehicles");
         int amountOfVehicles = scanner.nextInt();
-        //TypeOfVehicle typeOfVehicleForLot, int numberOfVehicles, Terminal terminalToAddLot, int newLotId
         lotCreator.sendVehicleLotToTerminal(typeOfVehicle, amountOfVehicles , terminal, idGenerator.getNewLotId());
     }
 
-    private static void addTerminal() {
-
+    static void addTerminal() {
+        Zone zone;
+        do {
+            System.out.println("Insert valid zone:");
+            zone = zoneDatabase.findZone(scanner.nextLine());
+        } while (zone == null);
+        Terminal terminal = new Terminal(zone, idGenerator.getNewTerminalId());
+        terminalDatabase.addTerminal(terminal);
     }
 
-    private static void blockUser() {
+    static void blockUser() {
         Client unblockingClient;
         do{
             System.out.println("Insert a valid phone number");
             unblockingClient = userDatabase.findClient(scanner.nextInt());
-        }while (unblockingClient != null);
+        }while (unblockingClient == null);
         userManager.unblockClient(unblockingClient);
     }
 
-    private static void userOptions(int option) {
+    static void userOptions(int option) {
         switch (option) {
             case 1:
                 startTrip();
@@ -144,16 +160,19 @@ public class MoovMe {
         }
     }
 
-    private static void displayPositions() {
+    static void displayPositions() {
         for (Zone zone : zoneDatabase.getZones().values()){
             String position = zone.getZoneHighscore().getPosition(user.getPhoneNumber());
             System.out.println("Zone: " + zone.getZoneName() + " " + position);
         }
     }
 
-    private static void registration() {
+    static void registration() {
         System.out.print("Insert your username: ");
-        String username = scanner.nextLine();
+        String username;
+        //do{
+            username = scanner.nextLine();
+        //}while (username != "");
         System.out.print("Insert your phone number: ");
         int phoneNumber = scanner.nextInt();
         if(userDatabase.alreadyStoredKey(phoneNumber)) {
@@ -164,7 +183,7 @@ public class MoovMe {
         }
     }
 
-    private static void logInUser() {
+    static void logInUser() {
         User newUser;
         do{
             System.out.println("Log In");
@@ -175,7 +194,7 @@ public class MoovMe {
         user = newUser;
     }
 
-    private static void startTrip(){
+    static void startTrip(){
         int terminalId;
         do{
             System.out.println("Insert terminal ID: ");
@@ -197,7 +216,7 @@ public class MoovMe {
         }
     }
 
-    private static double endTrip(){
+    static double endTrip(){
         double amountToPay = 0;
         Vehicle vehicle = user.endTrip();
         int totalPoints = user.getTrip().getVehicle().getTypeOfVehicle().getScore();
@@ -279,7 +298,7 @@ public class MoovMe {
         ArrayList<Discount> marDePlataDiscounts = new ArrayList<Discount>(2);
         pilarDiscounts.add(new Discount<Bycicle>(50, 0.03, new Bycicle()));
         pilarDiscounts.add(new Discount<Scooter>(60, 0.04, new Scooter()));
-        zones.put("Mar De Plata", new Zone(marDePlataDiscounts, "Mar de Plata", 7));
+        zones.put("Mar Del Plata", new Zone(marDePlataDiscounts, "Mar del Plata", 7));
 
         return zones;
     }

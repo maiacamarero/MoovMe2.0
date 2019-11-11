@@ -33,7 +33,7 @@ public class MoovMe {
         System.out.println(terminalDatabase.findTerminal(1));
         int option;
         do {
-            System.out.println("1. Register. \n 2. LogIn \n Select Option:");
+            System.out.println("1. Register.\n2. LogIn.\nSelect Option:");
             option = scanner.nextInt();
             switch (option) {
                 case 1:
@@ -50,14 +50,14 @@ public class MoovMe {
 
         do {
             if (user instanceof Client) {
-                System.out.println("1. Start Trip. \n 2. Start Trip With Leave Hour \n 3. End Trip \n 4. Display Positions" +
-                        "\n Select Option:");
+                System.out.println("1. Start Trip. \n2. Start Trip With Leave Hour\n3. End Trip\n4. Display Positions" +
+                        "\nSelect Option:");
                 option = scanner.nextInt();
                 userOptions(option);
             } else {
-                System.out.println("1. Start Trip. \n 2. Start Trip With Leave Hour \n 3. End Trip \n 4. Display Positions" +
-                        "\n 5. Block User \n 6. Add Terminal \n 7. Create Lot " +
-                        "\n 8. Unblock Client \n Select Option:");
+                System.out.println("1. Start Trip.\n2. Start Trip With Leave Hour\n3. End Trip\n4. Display Positions" +
+                        "\n5. Block User\n6. Add Terminal\n7. Create Lot " +
+                        "\n8. Unblock Client\nSelect Option:");
                 option = scanner.nextInt();
                 if (option > 4){
                     managerOptions(option);
@@ -133,7 +133,7 @@ public class MoovMe {
             terminal = terminalDatabase.getTerminal(scanner.nextInt());
         }while (terminal == null);
         TypeOfVehicle typeOfVehicle = null;
-        System.out.println("Select type of vehicle \n 1. Scooter \n 2. Bycicle");
+        System.out.println("Select type of vehicle: \n1. Scooter. \n2. Bicycle.");
         int option = scanner.nextInt();
         do {
             if (option == 1){
@@ -172,13 +172,13 @@ public class MoovMe {
                 startTrip();
                 break;
             case 2:
-                endTrip();
+                startTrip();
                 break;
             case 3:
-                displayPositions();
+                endTrip();
                 break;
             case 4:
-                endTrip();
+                displayPositions();
             default:
                 System.out.println("Not a valid option");
         }
@@ -254,7 +254,7 @@ public class MoovMe {
         Terminal terminal = terminalDatabase.getTerminal(terminalId);
         terminal.addVehicleToTerminal(vehicle.getVehicleId(), vehicle);
         terminalDatabase.addTerminal(terminal);
-        System.out.println("Will you use discount? \n 1. Yes. \n 2. No.");
+        System.out.println("Will you use discount? \n1. Yes.\n2. No.");
         int option;
         do{
             option = scanner.nextInt();

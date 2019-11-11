@@ -50,16 +50,16 @@ public class MoovMe {
 
         do {
             if (user instanceof Client) {
-                System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
+                System.out.println("1. Start Trip. \n 2. Start Trip With Leave Hour \n 3. End Trip \n 4. Display Positions" +
                         "\n Select Option:");
                 option = scanner.nextInt();
                 userOptions(option);
             } else {
-                System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
-                        "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
-                        "\n 7. Unblock Client \n Select Option:");
+                System.out.println("1. Start Trip. \n 2. Start Trip With Leave Hour \n 3. End Trip \n 4. Display Positions" +
+                        "\n 5. Block User \n 6. Add Terminal \n 7. Create Lot " +
+                        "\n 8. Unblock Client \n Select Option:");
                 option = scanner.nextInt();
-                if (option > 3){
+                if (option > 4){
                     managerOptions(option);
                 }else {
                     userOptions(option);
@@ -100,16 +100,18 @@ public class MoovMe {
 
     static void managerOptions(int option) {
         switch (option) {
-            case 4:
+            case 5:
                 blockUser();
                 break;
-            case 5:
+            case 6:
                 addTerminal();
                 break;
-            case 6:
-                createLot();
             case 7:
+                createLot();
+                break;
+            case 8:
                 unBlockUser();
+                break;
             default:
                 System.out.println("Not a valid option");
         }
@@ -120,7 +122,7 @@ public class MoovMe {
         do{
             System.out.println("Insert a valid phone number: ");
             blockingClient = userDatabase.findClient(scanner.nextInt());
-        }while (blockingClient != null);
+        }while (blockingClient == null);
         userManager.blockClient(blockingClient);
     }
 
@@ -129,9 +131,9 @@ public class MoovMe {
         do{
             System.out.println("Insert a valid Terminal ID: ");
             terminal = terminalDatabase.getTerminal(scanner.nextInt());
-        }while (terminalDatabase.findTerminal(scanner.nextInt()));
+        }while (terminal == null);
         TypeOfVehicle typeOfVehicle = null;
-        System.out.println("Select type of vehicle");
+        System.out.println("Select type of vehicle \n 1. Scooter \n 2. Bycicle");
         int option = scanner.nextInt();
         do {
             if (option == 1){
@@ -174,6 +176,9 @@ public class MoovMe {
                 break;
             case 3:
                 displayPositions();
+                break;
+            case 4:
+                endTrip();
             default:
                 System.out.println("Not a valid option");
         }
@@ -187,16 +192,19 @@ public class MoovMe {
     }
 
     static void registration() {
-        System.out.print("Insert your username: ");
-        String username = scanner.nextLine();
-        System.out.print("Insert your phone number: ");
-        int phoneNumber = scanner.nextInt();
-        if(userDatabase.alreadyStoredKey(phoneNumber)) {
-            System.out.println("Phone number already used. Enter valid phone number.");
-        } else {
+        String username = "";
+        while (username.equals("")){
+            System.out.print("Insert your username: ");
+            username = scanner.next();
+        }
+        int phoneNumber;
+        do {
+            System.out.print("Insert your phone number: ");
+            phoneNumber = scanner.nextInt();
+        } while (userDatabase.alreadyStoredKey(phoneNumber));
             userDatabase.addClient(new Client(username, phoneNumber));
             System.out.println("Registration successful!!\n");
-        }
+
     }
 
     static void logInUser() {

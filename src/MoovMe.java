@@ -1,29 +1,34 @@
-import Database.TerminalDatabase;
-import Database.UserDatabase;
-import Database.ZoneDatabase;
+import Database.*;
+import Discount.Discount;
 import Exceptions.UserIsBlockedException;
 import IdGenerator.IdGenerator;
+import Managers.*;
 import Terminal.Terminal;
 import Trip.Trip;
-import User.User;
-import Vehicle.Vehicle;
+import User.*;
+import Vehicle.*;
+import Vehicle.TypeOfVehicle.*;
+import Zone.Zone;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class MoovMe {
 
-    static UserDatabase userDatabase;
-    static TerminalDatabase terminalDatabase;
-    static ZoneDatabase zoneDatabase;
-    //static TerminalManager terminalManager;
-    //static Managers.UserManager userManager;
-    //static DiscountManeger discountManeger; //es el zone manager sin el ultimo metodo y sin ninguna variable.
+    private static UserDatabase userDatabase = new UserDatabase();
+    private static TerminalDatabase terminalDatabase = new TerminalDatabase();
+
+    static ZoneDatabase zoneDatabase = new ZoneDatabase(moovMeZones());
+    static TerminalManager terminalManager = new TerminalManager();
+    static UserManager userManager;
+    static DiscountManager discountManager; //es el zone manager sin el ultimo metodo y sin ninguna variable.
                                             // a todos los metodos pasarle zone.d
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;
-    static User user;
-    static Scanner scanner = new Scanner(System.in);
+    private static User user;
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         registration();
@@ -32,7 +37,15 @@ public class MoovMe {
     }
 
     private static void registration() {
-        //no se quien lo va a hacer, despues vemos
+        System.out.print("Insert your username: ");
+        String username = scanner.nextLine();
+        System.out.print("Insert your phone number: ");
+        int phoneNumber = scanner.nextInt();
+        if(userDatabase.alreadyStoredKey(phoneNumber)) {
+            System.out.println("Phone number already used. Enter valid phone number.");
+        } else {
+            userDatabase.addClient(new Client(username, phoneNumber));
+        }
     }
 
     private static void logInUser() {
@@ -82,8 +95,9 @@ public class MoovMe {
         terminal.addVehicleToTerminal(vehicle.getVehicleId(), vehicle);
         terminalDatabase.addTerminal(terminal);
         System.out.println("Will you use discount? \n 1. Yes. \n 2. No.");
-        int option = scanner.nextInt();
+        int option;
         do{
+            option = scanner.nextInt();
             if(option == 2){
                 amountToPay = user.payTrip();
             }else if(option == 1){
@@ -114,4 +128,27 @@ public class MoovMe {
         }while(option != 1 && option != 2);
         return amountToPay;
     }
+
+    private static HashMap<String, Zone> moovMeZones() {
+        HashMap<String, Zone> zones = new HashMap<String, Zone>();
+
+        ArrayList<Discount> cabaDiscounts = new ArrayList<Discount>(2);
+        cabaDiscounts.add(new Discount<Bycicle>(60, 0.04, new Bycicle()));
+        cabaDiscounts.add(new Discount<Scooter>(80, 0.05, new Scooter()));
+        zones.put("CABA", new Zone(cabaDiscounts,"CABA" , 10));
+
+        ArrayList<Discount> pilarDiscounts = new ArrayList<Discount>(2);
+        pilarDiscounts.add(new Discount<Bycicle>(40, 0.02, new Bycicle()));
+        pilarDiscounts.add(new Discount<Scooter>(50, 0.03, new Scooter()));
+        zones.put("Pilar", new Zone(pilarDiscounts,"Pilar" , 5));
+
+
+        ArrayList<Discount> marDePlataDiscounts = new ArrayList<Discount>(2);
+        pilarDiscounts.add(new Discount<Bycicle>(50, 0.03, new Bycicle()));
+        pilarDiscounts.add(new Discount<Scooter>(60, 0.04, new Scooter()));
+        zones.put("Mar De Plata", new Zone(marDePlataDiscounts, "Mar de Plata", 7));
+
+        return zones;
+    }
+
 }

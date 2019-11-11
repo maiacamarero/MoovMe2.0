@@ -6,7 +6,7 @@ public class Discount<T extends TypeOfVehicle> {
 
     private int pointRequirement;
     private double discountPerPoint;
-    private T typeOfVehicle;//
+    private T typeOfVehicle;
 
     public Discount(int pointRequirement, double discountPerPoint, T typeOfVehicle) {
         this.pointRequirement = pointRequirement;

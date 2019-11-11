@@ -17,7 +17,7 @@ public class ScorePoint {
         return phoneNumber;
     }
 
-    public void addPoints(int newPoints){
+    void addPoints(int newPoints){
         points += newPoints;
     }
 }

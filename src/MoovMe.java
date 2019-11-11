@@ -22,8 +22,7 @@ public class MoovMe {
     static ZoneDatabase zoneDatabase = new ZoneDatabase(moovMeZones());
     static TerminalManager terminalManager = new TerminalManager();
     static UserManager userManager;
-    static DiscountManager discountManager; //es el zone manager sin el ultimo metodo y sin ninguna variable.
-                                            // a todos los metodos pasarle zone.d
+    static DiscountManager discountManager;
     static IdGenerator idGenerator;
     //static UserInterface userInterface;
     //static AdministratorInterface administratorInterface;
@@ -31,8 +30,41 @@ public class MoovMe {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        registration();
-        logInUser();
+        int option;
+        do {
+            System.out.println("1. Register. \n 2. LogIn \n Select Option:");
+            option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                registration();
+                logInUser();
+                break;
+                case 2:
+                    logInUser();
+                    break;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }while(option != 1 && option != 2);
+
+        do {
+            System.out.println("1. Start Trip. \n 2. End Trip \n 3. Get Positions" +
+                    "\n Select Option:");
+            option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    registration();
+                    logInUser();
+                    break;
+                case 2:
+                    logInUser();
+                    break;
+                default:
+                    System.out.println("Not a valid option");
+            }
+        }while(option != 1 && option != 2);
+
+
 
     }
 

@@ -14,6 +14,14 @@ public class Discount<T extends TypeOfVehicle> {
         this.typeOfVehicle = typeOfVehicle;
     }
 
+    public void setPointRequirement(int pointRequirement) {
+        this.pointRequirement = pointRequirement;
+    }
+
+    public void setDiscountPerPoint(double discountPerPoint) {
+        this.discountPerPoint = discountPerPoint;
+    }
+
     public boolean correctDiscount(TypeOfVehicle typeOfVehicle){
         return typeOfVehicle.getClass().getSimpleName().equals(this.typeOfVehicle.getClass().getSimpleName());
     }

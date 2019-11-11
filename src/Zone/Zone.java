@@ -57,4 +57,20 @@ public class Zone {
         }
         throw new RuntimeException("hacer exception TypeOfVehicleNotValid");
     }
+
+    public void setPointRequirement(TypeOfVehicle typeOfVehicle, int newPointRequirement) {
+        for (Discount zoneDiscount : zoneDiscounts) {
+            if (zoneDiscount.correctDiscount(typeOfVehicle)){
+                zoneDiscount.setPointRequirement(newPointRequirement);
+            }
+        }
+    }
+
+    public void setDiscountPerPoint(TypeOfVehicle typeOfVehicle, int newDiscountPerPoint) {
+        for (Discount zoneDiscount : zoneDiscounts) {
+            if (zoneDiscount.correctDiscount(typeOfVehicle)){
+                zoneDiscount.setDiscountPerPoint(newDiscountPerPoint);
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ public abstract class User {
 
     private String username, phoneNumber;
     Trip trip;
-    int usablePoints;
+    private int usablePoints;
 
     public User(String username, String phoneNumber) {
         this.username = username;

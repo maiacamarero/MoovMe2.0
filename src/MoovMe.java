@@ -77,12 +77,14 @@ public class MoovMe {
             System.out.println("Phone number already used. Enter valid phone number.");
         } else {
             userDatabase.addClient(new Client(username, phoneNumber));
+            System.out.println("Registration successful!!\n");
         }
     }
 
     private static void logInUser() {
         User newUser;
         do{
+            System.out.println("Log In");
             System.out.println("Insert phone number: ");
             int phoneNumber = scanner.nextInt();
             newUser = userDatabase.findUser(phoneNumber);
@@ -159,6 +161,22 @@ public class MoovMe {
             }
         }while(option != 1 && option != 2);
         return amountToPay;
+    }
+
+    void blockUser(int phoneNumber) {
+        userManager.blockClient(userDatabase.findClient(phoneNumber));
+    }
+
+    void unblockUser(int phoneNumber) {
+        userManager.unblockClient(userDatabase.findClient(phoneNumber));
+    }
+
+    void upgradeToAdmin(int phoneNumber) {
+        userManager.upgradeToAdmin(userDatabase, userDatabase.findClient(phoneNumber));
+    }
+
+    void downgradeToUser(int phoneNumber) {
+        userManager.downgradeToClient(userDatabase, userDatabase.findAdmin(phoneNumber));
     }
 
     private static HashMap<String, Zone> moovMeZones() {

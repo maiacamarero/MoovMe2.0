@@ -22,7 +22,7 @@ public abstract class User {
     }
 
     public double applyPointDiscount(int amountOfPoints){
-        return amountOfPoints * trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle());
+        return amountOfPoints * trip.getZone().getDiscountPerPoint(trip.getVehicle().getTypeOfVehicle());
     }
 
     public double payTrip(int amountOfPoints){
@@ -30,6 +30,7 @@ public abstract class User {
         double amountToPay = trip.getPriceOfTrip();
         amountToPay *= applyTop3Discount();
         amountToPay *= applyDeliveryOnTime();
+        //chequea descuentos automaticos
         amountToPay -= applyPointDiscount(amountOfPoints);
         return amountToPay;
     }
@@ -53,9 +54,9 @@ public abstract class User {
     public abstract void startTrip(Trip trip) throws UserIsBlockedException;
 
     public int canApplyPointDiscount(int amountOfPoints) {
-        if (trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle()) > usablePoints) {
+        if (trip.getZone().getDiscountRequirement(trip.getVehicle().getTypeOfVehicle()) > usablePoints) {
             return 1; // insuficient points
-        }else if(amountOfPoints < trip.getZone().getDiscount(trip.getVehicle().getTypeOfVehicle())){
+        }else if(amountOfPoints < trip.getZone().getDiscountRequirement(trip.getVehicle().getTypeOfVehicle())){
             return 2; // minimum not reached
         }else if(amountOfPoints > usablePoints){
             return 3; // you dont have that many points

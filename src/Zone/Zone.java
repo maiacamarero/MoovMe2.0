@@ -20,10 +20,10 @@ public class Zone {
         this.zoneFarePerMinute = zoneFarePerMinute;
     }
 
-    public double getDiscount(TypeOfVehicle typeOfVehicle){
+    public double getDiscountPerPoint(TypeOfVehicle typeOfVehicle){
         for (Discount zoneDiscount : zoneDiscounts) {
             if (zoneDiscount.correctDiscount(typeOfVehicle)){
-                return zoneDiscount.getPointRequirement();
+                return zoneDiscount.getDiscountPerPoint();
             }
         }
         throw new RuntimeException("hacer exception TypeOfVehicleNotValid");
@@ -47,5 +47,14 @@ public class Zone {
 
     public double getZoneFarePerMinute() {
         return zoneFarePerMinute;
+    }
+
+    public double getDiscountRequirement(TypeOfVehicle typeOfVehicle) {
+        for (Discount zoneDiscount : zoneDiscounts) {
+            if (zoneDiscount.correctDiscount(typeOfVehicle)){
+                return zoneDiscount.getPointRequirement();
+            }
+        }
+        throw new RuntimeException("hacer exception TypeOfVehicleNotValid");
     }
 }

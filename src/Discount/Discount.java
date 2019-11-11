@@ -17,6 +17,10 @@ public class Discount<T extends TypeOfVehicle> {
         }
     }
 
+    public double getDiscountPerPoint() {
+        return discountPerPoint;
+    }
+
     public double getPointRequirement() {
         return pointRequirement;
     }

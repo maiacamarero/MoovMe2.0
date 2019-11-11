@@ -7,11 +7,11 @@ import Vehicle.Vehicle;
 
 public abstract class User {
 
-    private String username, phoneNumber;
+    private String username;
     Trip trip;
-    private int usablePoints;
+    private int usablePoints, phoneNumber;
 
-    public User(String username, String phoneNumber) {
+    User(String username, int phoneNumber) {
         this.username = username;
         this.phoneNumber = phoneNumber;
         usablePoints = 0;
@@ -21,7 +21,7 @@ public abstract class User {
         return trip.getVehicle();
     }
 
-    public double applyPointDiscount(int amountOfPoints){
+    private double applyPointDiscount(int amountOfPoints){
         return amountOfPoints * trip.getZone().getDiscountPerPoint(trip.getVehicle().getTypeOfVehicle());
     }
 
@@ -35,7 +35,7 @@ public abstract class User {
         return amountToPay;
     }
 
-    public double applyDeliveryOnTime() {
+    private double applyDeliveryOnTime() {
         if (trip.getState().equals(new DeliveredOnTime())){
             return 0.8;
         }else{
@@ -43,7 +43,7 @@ public abstract class User {
         }
     }
 
-    public double applyTop3Discount(){
+    private double applyTop3Discount(){
         if (trip.getZone().isTopThree(phoneNumber)){
             return 0.5;
         }else{
@@ -69,7 +69,7 @@ public abstract class User {
         return username;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 

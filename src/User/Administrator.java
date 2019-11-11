@@ -4,7 +4,7 @@ import Trip.Trip;
 
 public class Administrator extends User {
 
-    public Administrator(String username, String phoneNumber) {
+    public Administrator(String username, int phoneNumber) {
         super(username, phoneNumber);
     }
 
@@ -12,4 +12,5 @@ public class Administrator extends User {
     public void startTrip(Trip newTrip) {
         trip = newTrip;
     }
+
 }

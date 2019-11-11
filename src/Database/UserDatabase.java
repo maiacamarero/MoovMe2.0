@@ -8,9 +8,9 @@ import java.util.HashMap;
 
 public class UserDatabase {
 
-    private HashMap<String, Client> clients;
-    private HashMap<String, Administrator> admins;
-    private HashMap<String, User> users;
+    private HashMap<Integer, Client> clients;
+    private HashMap<Integer, Administrator> admins;
+    private HashMap<Integer, User> users;
 
     public UserDatabase() {
         clients = new HashMap<>();
@@ -18,15 +18,15 @@ public class UserDatabase {
         users = new HashMap<>();
     }
 
-    public Client findClient(String phoneNumber) {
+    public Client findClient(int phoneNumber) {
         return clients.get(phoneNumber);
     }
 
-    public Administrator findAdmin(String phoneNumber) {
+    public Administrator findAdmin(int phoneNumber) {
         return admins.get(phoneNumber);
     }
 
-    public User findUser(String phoneNumber) {
+    public User findUser(int phoneNumber) {
         return users.get(phoneNumber);
     }
 
@@ -40,17 +40,17 @@ public class UserDatabase {
         users.put(anAdministrator.getPhoneNumber(), anAdministrator);
     }
 
-    public void removeClient(String phoneNumber) {
+    public void removeClient(int phoneNumber) {
         clients.remove(phoneNumber);
         users.remove(phoneNumber);
     }
 
-    public void removeAdmin(String phoneNumber) {
+    public void removeAdmin(int phoneNumber) {
         admins.remove(phoneNumber);
         users.remove(phoneNumber);
     }
 
-    public boolean alreadyStoredKey(String phoneNumber) {
+    public boolean alreadyStoredKey(int phoneNumber) {
         return users.containsKey(phoneNumber);
     }
 

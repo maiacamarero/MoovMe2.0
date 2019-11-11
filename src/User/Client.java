@@ -7,7 +7,7 @@ public class Client extends User {
 
     private boolean isClientBlocked;
 
-    public Client(String username, String phoneNumber) {
+    public Client(String username, int phoneNumber) {
         super(username, phoneNumber);
         isClientBlocked = false;
     }
@@ -27,4 +27,5 @@ public class Client extends User {
     public void unblockClient() {
         isClientBlocked = false;
     }
+
 }

@@ -41,7 +41,7 @@ public class Zone {
         return zoneName;
     }
 
-    public boolean isTopThree(String phoneNumber) {
+    public boolean isTopThree(int phoneNumber) {
         return zoneHighscore.isTopThree(phoneNumber);
     }
 

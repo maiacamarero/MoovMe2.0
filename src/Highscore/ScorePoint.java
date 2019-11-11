@@ -2,19 +2,18 @@ package Highscore;
 
 public class ScorePoint {
 
-    private String phoneNumber;
-    private int points;
+    private int points, phoneNumber;
 
-    public ScorePoint(String phoneNumber) {
+    public ScorePoint(int phoneNumber) {
         this.phoneNumber = phoneNumber;
         points = 0;
     }
 
-    public int getPoints() {
+    int getPoints() {
         return points;
     }
 
-    public String getPhoneNumber() {
+    int getPhoneNumber() {
         return phoneNumber;
     }
 

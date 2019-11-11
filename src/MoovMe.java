@@ -3,6 +3,7 @@ import Discount.Discount;
 import Exceptions.UserIsBlockedException;
 import Highscore.ScorePoint;
 import IdGenerator.IdGenerator;
+import Lot.LotCreator;
 import Managers.*;
 import Terminal.Terminal;
 import Trip.Trip;
@@ -11,6 +12,7 @@ import Vehicle.*;
 import Vehicle.TypeOfVehicle.*;
 import Zone.Zone;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -24,6 +26,7 @@ public class MoovMe {
     static UserManager userManager = new UserManager();
     static DiscountManager discountManager = new DiscountManager();
     static IdGenerator idGenerator = new IdGenerator();
+    static LotCreator lotCreator = new LotCreator();
     private static User user;
     private static Scanner scanner = new Scanner(System.in);
 
@@ -53,7 +56,7 @@ public class MoovMe {
             if (user instanceof Client) {
                 System.out.println("1. Start Trip. \n 2. End Trip \n 3. Display Positions" +
                         "\n 4. Block User \n 5. Add Terminal \n 6. Create Lot " +
-                        "\n Select Option:");
+                        "\n 7. Unblock Client \n Select Option:");
                 userOptions(option);
             } else {
                 if (option > 3){
@@ -63,9 +66,6 @@ public class MoovMe {
                 }
             }
         }while(option != 0);
-
-
-
     }
 
     private static void managerOptions(int option) {
@@ -78,13 +78,42 @@ public class MoovMe {
                 break;
             case 6:
                 CreateLot();
+            case 7:
+                unBlockUser();
             default:
                 System.out.println("Not a valid option");
         }
     }
 
-    private static void CreateLot() {
+    private static void unBlockUser() {
+        Client blockingClient;
+        do{
+            System.out.println("Insert a valid phone number: ");
+            blockingClient = userDatabase.findClient(scanner.nextInt());
+        }while (blockingClient != null);
+        userManager.blockClient(blockingClient);
+    }
 
+    private static void CreateLot() {
+        Terminal terminal;
+        do{
+            System.out.println("Insert a valid Terminal ID: ");
+            terminal = terminalDatabase.getTerminal(scanner.nextInt());
+        }while (terminalDatabase.findTerminal(scanner.nextInt()));
+        TypeOfVehicle typeOfVehicle = null;
+        System.out.println("Select type of vehicle");
+        int option = scanner.nextInt();
+        do {
+            if (option == 1){
+                typeOfVehicle = new Scooter();
+            } else if (option == 2){
+                typeOfVehicle = new Bycicle();
+            }
+        } while (option != 1 && option != 2);
+        System.out.println("Enter amount of vehicles");
+        int amountOfVehicles = scanner.nextInt();
+        //TypeOfVehicle typeOfVehicleForLot, int numberOfVehicles, Terminal terminalToAddLot, int newLotId
+        lotCreator.sendVehicleLotToTerminal(typeOfVehicle, amountOfVehicles , terminal, idGenerator.getNewLotId());
     }
 
     private static void addTerminal() {
@@ -92,7 +121,12 @@ public class MoovMe {
     }
 
     private static void blockUser() {
-
+        Client unblockingClient;
+        do{
+            System.out.println("Insert a valid phone number");
+            unblockingClient = userDatabase.findClient(scanner.nextInt());
+        }while (unblockingClient != null);
+        userManager.unblockClient(unblockingClient);
     }
 
     private static void userOptions(int option) {
